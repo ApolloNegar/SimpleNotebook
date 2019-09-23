@@ -1,2 +1,3 @@
 pytz
 Django == 2.2.5
+django-crispy-forms

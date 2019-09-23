@@ -1,0 +1,11 @@
+{% extends "notes/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    {% if user.is_authenticated %}
+        <h1>hello {{user.username}}</h1>
+    {% endif %}
+    <hr>
+
+</div>
+{% endblock content %}

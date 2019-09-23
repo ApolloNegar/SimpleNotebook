@@ -1,14 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 # Create your models here.
 
-class Note(models.Model):
-    priority = models.IntegerField(max_length=10)
-    title = models.CharField(max_length=100)
-    date_of_creation = models.DateTimeField(auto_created=True)
-    text = models.TextField(max_length=1000000)
-    last_edit = models.DateTimeField(auto_created=True)
+class Post(models.Model):
+    TITLE_MAX_LENGTH = 100
+    CONTENT_MAX_LENGTH = 200
+
+    title = models.CharField(null=False, max_length=TITLE_MAX_LENGTH)
+    content = models.TextField(max_length=CONTENT_MAX_LENGTH)  # TextField required max_length
+    date_posted = models.DateTimeField(default=timezone.now)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
