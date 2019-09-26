@@ -5,8 +5,15 @@
         <h2>You have been logged out</h2>
 
         <div class="border-top pt-3">
-            <small class="text-muted"><a href="{% url 'login'%}" class="ml-2">login?</a>
-            </small>
+            <div class="row">
+                <div class="col-md-6">
+                <small class="text-muted"><a href="{% url 'login'%}" class="ml-2">login?</a>
+                </small> </div>
+                <div class="col-md-6">
+                <small class="text-muted"><a href="{% url 'main-page'%}" class="ml-2">go to main page</a>
+                </small> </div>
+
+            </div>
 
         </div>
     </div>

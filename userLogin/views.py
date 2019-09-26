@@ -3,9 +3,12 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
+
 from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from notes.models import Post
 
 
 # Create your views here.
@@ -26,4 +29,7 @@ def register(request):
 
 @login_required
 def profile(request):
-    return render(request, 'userLogin/profile.html')
+    user = User.objects.get(id=request.user.id)
+    p = Post.objects.filter(author=user.id)
+    counter = 0
+    return render(request, 'userLogin/profile.html', {'p': p, 'counter': counter})

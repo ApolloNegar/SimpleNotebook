@@ -18,17 +18,18 @@ from django.urls import path
 from django.contrib import admin
 
 from django.contrib.auth import views as auth_views
-from notes.views import UserPost, notes
+from notes.views import (UserPost, notes, UserPostDetailView, UserCreateView)
 from userLogin import views as user_views
 
 urlpatterns = [
-    path('', notes, name='main-page'),
-    path('posts', UserPost.as_view(), name="blog-home"),
+
+    path('', UserPost.as_view(), name="main-page"),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='login'),
     # telling django where to look for template
     path('logout/', auth_views.LogoutView.as_view(template_name='userLogin/logout.html'), name='logout'),
     path('admin/', admin.site.urls),
-
+    path('post/<int:pk>/', UserPostDetailView.as_view(), name="post-detail"),
+    path('post/new/', UserCreateView.as_view(), name='post-create')
 ]

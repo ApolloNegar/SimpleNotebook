@@ -1,6 +1,28 @@
 {% extends "notes/base.html" %}
 {% load crispy_forms_tags %}
-{% block content %}
-    <h1> welcome {{ user.username }}!</h1> <!--built-in-->
 
+{% block content %}
+    <h1> welcome to your profile {{ user.username }}!</h1> <!--built-in-->
+    <small><a href="{% url 'main-page' %}">main page</a></small>
+    <small><a href="{% url 'post-create' %}">create a post</a></small>
+    <hr>
+
+    {% for i in p %}
+
+       id is: {{i.id}}
+        <article>
+            <div class="jumbotron">
+                  <h1 class="display-4">{{i.title}}</h1>
+                  <p class="lead">{{i.content}}</p>
+                  <hr class="my-4">
+                  <p>{{i.date_posted}}</p>
+
+            </div>
+        </article>
+        <br>
+
+    {% endfor %}
+    <h1>{{t}}</h1>
 {% endblock content %}
+
+
