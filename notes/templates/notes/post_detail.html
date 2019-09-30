@@ -2,12 +2,19 @@
 {% block content %}
     <article class="media content-section">
         <div class="media-body">
-            <div class="article-metadata">
-                <h1>{{ object.author }}</h1>
-                  <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-            </div>
-            <h2 class="article-title">{{ object.title }}</h2>
+
+            <h1 class="article-title">{{ object.title }}</h1>
             <p class="article-content">{{ object.content }}</p>
+            <hr>
+            <div class="article-metadata">
+                <a href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>
+                  <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+                    {% if object.author == user %}
+
+                        <small><a class="btn btn-secondary btn-sm" href="{% url 'post-update' object.id %}">edit post</a></small>
+                        <small><a class="btn btn-danger btn-sm" href="{% url 'post-delete' object.id %}">delete</a></small>
+                    {% endif %}
+            </div>
 
         </div>
     </article>

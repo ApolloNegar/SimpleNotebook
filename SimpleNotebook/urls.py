@@ -18,7 +18,7 @@ from django.urls import path
 from django.contrib import admin
 
 from django.contrib.auth import views as auth_views
-from notes.views import (UserPost, notes, UserPostDetailView, UserCreateView)
+from notes.views import (UserPost, UserPostDetailView, UserCreateView, UserUpdateView, UserDeleteView, UserPostListView)
 from userLogin import views as user_views
 
 urlpatterns = [
@@ -31,5 +31,8 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='userLogin/logout.html'), name='logout'),
     path('admin/', admin.site.urls),
     path('post/<int:pk>/', UserPostDetailView.as_view(), name="post-detail"),
-    path('post/new/', UserCreateView.as_view(), name='post-create')
+    path('new-post/', UserCreateView.as_view(), name='post-create'),
+    path('post/<int:pk>/update', UserUpdateView.as_view(), name="post-update"),
+    path('post/<int:pk>/delete', UserDeleteView.as_view(), name="post-delete"),
+    path('user/<str:username>', UserPostListView.as_view(), name='user-posts')
 ]

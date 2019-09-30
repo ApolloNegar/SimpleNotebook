@@ -2,24 +2,35 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h1> welcome to your profile {{ user.username }}!</h1> <!--built-in-->
-    <small><a href="{% url 'main-page' %}">main page</a></small>
-    <small><a href="{% url 'post-create' %}">create a post</a></small>
+    <h1> welcome to your profile <span style="color: darkred">{{ user.username }}</span>!</h1> <!--built-in-->
+    <div class="row">
+        <div class="col-md-6">
+            <small><a href="{% url 'main-page' %}">main page</a></small>
+        </div>
+        <div class="col-md-6">
+             <small><a href="{% url 'post-create' %}">create a new post</a></small>
+        </div>
+    </div>
     <hr>
+    <br>
+    {% for i in posts %}
 
-    {% for i in p %}
 
-       id is: {{i.id}}
-        <article>
-            <div class="jumbotron">
-                  <h1 class="display-4">{{i.title}}</h1>
-                  <p class="lead">{{i.content}}</p>
-                  <hr class="my-4">
+        <article class="media content-section ml-5">
+            <div class="">
+
+                  <a  href=" {%url 'post-detail' i.id %}">{{i.title}}</a>
+                  <h2 class="">{{i.content}}</h2>
+                <div>
+
                   <p>{{i.date_posted}}</p>
-
+                    <a href=""></a>
+                </div>
+                
             </div>
         </article>
         <br>
+        <hr>
 
     {% endfor %}
     <h1>{{t}}</h1>

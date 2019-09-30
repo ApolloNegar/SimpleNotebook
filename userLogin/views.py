@@ -30,6 +30,7 @@ def register(request):
 @login_required
 def profile(request):
     user = User.objects.get(id=request.user.id)
-    p = Post.objects.filter(author=user.id)
+    posts = Post.objects.filter(author=user.id)
+
     counter = 0
-    return render(request, 'userLogin/profile.html', {'p': p, 'counter': counter})
+    return render(request, 'userLogin/profile.html', {'posts': posts, 'counter': counter})
