@@ -2,8 +2,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <div class="container pt-10">
-        <div class="form-content">
+    {% if user.is_authenticated %}
+        <h1> you are logged in! </h1>
+    {% else %}
+    <div class="container  login-register">
+        <div class="form-content padding ">
+
             <form method="post">
                 {% csrf_token %}
                 <fieldset class="form-group">
@@ -11,15 +15,17 @@
                     {{ form|crispy}}
                 </fieldset>
                 <div class="form-group">
-                    <button class="btn btn-outline-info" type="submit">Login</button>
+                    <button class="btn btn-info" type="submit">Login</button>
                 </div>
             </form>
             <div class="border-top pt-3">
-                <small class="text-muted">DO YOU WANNA AN ACCOUNT? <a href="{% url 'register' %}" class="ml-2">Sign Up
+                <small class="text">DO YOU WANNA AN ACCOUNT? <a href="{% url 'register' %}"  class="btn btn-primary ml-2">Sign Up
                     Now</a>
                 </small>
 
             </div>
+
         </div>
     </div>
+    {% endif %}
 {% endblock %}

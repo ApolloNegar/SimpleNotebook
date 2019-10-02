@@ -7,6 +7,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.views.generic import (
     ListView,
     DetailView,
@@ -26,17 +27,9 @@ def notes(request):
     return render(request, 'notes/notes.html', context)
 
 
-class UserPost(ListView):
-    model = Post
-    template_name = 'notes/notes.html'
-    context_object_name = "posts"
-    ordering = ['-date_posted']
-    paginate_by = 10
-
-
 class UserPostListView(ListView):
     model = Post
-    template_name = 'notes/user_post.html'
+    template_name = 'notes/table_notes.html'  # ex: user_post.html
     context_object_name = "posts"
 
     paginate_by = 3
@@ -54,9 +47,12 @@ class UserCreateView(LoginRequiredMixin, CreateView):  # a view with a form, whe
     model = Post
     fields = ['title', 'content']
 
+    success_url = '/user-direct/'
+
     def form_valid(self, form):
         form.instance.author = self.request.user
 
+        form.save()
         return super().form_valid(form)
 
 
@@ -64,13 +60,14 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
                      UpdateView):  # a view with a form, when we create a new post
     model = Post
     fields = ['title', 'content']
-    model.date_modified = models.DateTimeField(default=timezone.now)
-    print(model.date_modified)
+
+    success_url = '/user-direct/'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.save()
-
+        now = timezone.now()
+        form.instance.date_modified = now
         return super().form_valid(form)
 
     def test_func(self):
@@ -82,10 +79,17 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = '/'
+
+    success_url = "/user-direct/"
 
     def test_func(self):
         post = self.get_object()
+
         if self.request.user == post.author:
             return True
         return False
+
+
+def user_direct(request):
+    print(request.user.username, request.user.id)
+    return redirect('user-posts', request.user.username)

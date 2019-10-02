@@ -1,11 +1,38 @@
 body{
-	background-color: #92e5eb;
-	font-family: 'Mansalva', cursive;
 
+	font-family: 'Lato', sans-serif;
+
+	background-color: #9c702e;
+	background-image: url("https://www.transparenttextures.com/patterns/wood-pattern.png");
+	/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
 
 	font-size: 21px;
 }
 
 .main{
 margin-top: 40px;
+}
+.navbar{
+
+	background-color: #703a00;
+	background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
+	/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+.login-register{
+	border-radius: 12px;
+	background-color: rgba(156, 205, 212, 0.85);
+	margin-bottom: 30px;
+	/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+.padding{
+	padding: 35px 40px 10px 10px;
+}
+
+main{
+	font-family: 'Squada One', cursive;
+	background-color: #a46500;
+	background-image: url("https://www.transparenttextures.com/patterns/black-felt.png");
+	/* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+	border-radius: 20px;
+	margin-top: 35px;
 }

@@ -13,25 +13,29 @@
     {% endif %}
     <!-- my own css -->
     <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Mansalva&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Squada+One&display=swap" rel="stylesheet">
   </head>
   <header>
-    <div class="container ">
-    <nav class="navbar navbar-expand justify-content-center">
+
+    <nav class="navbar navbar-expand justify-content-center ">
         <div class="navbar-nav ">
 
-          <a class="nav-item nav-link" href="{% url 'main-page' %}">Home page</a>
+
           {% if user.is_authenticated %}
-            <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-            <a class="nav-item nav-link" href="{% url 'logout' %}">lOGOUT</a>
-            <a class="nav-item nav-link" href="{% url 'profile' %}">PROFILE</a>
+            <a class="nav-item nav-link" href="{% url 'post-create' %}">NEW POST</a>
+            <a class="nav-item nav-link" href="{% url 'user-posts' user.username %}">POSTS</a>
+            <a class="nav-item nav-link" href="{% url 'logout' %}">LOGOUT</a>
+
           {% else %}
             <a class="nav-item nav-link" href="{% url 'login' %}">LOGIN</a>
             <a class="nav-item nav-link" href="{% url 'register' %}">REGISTER</a>
           {% endif %}
         </div>
       </nav>
-      </div>
+
   </header>
   <body>
   <div class="main">

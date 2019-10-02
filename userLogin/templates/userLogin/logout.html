@@ -1,21 +1,27 @@
 {% extends "notes/base.html" %}
 
 {% block content %}
-    <div class="container">
+
+    <main role="main" class="container padding " >
         <h2>You have been logged out</h2>
 
         <div class="border-top pt-3">
             <div class="row">
                 <div class="col-md-6">
-                <small class="text-muted"><a href="{% url 'login'%}" class="ml-2">login?</a>
-                </small> </div>
+                <small class="text-muted"><a href="{% url 'login'%}" class="btn btn-primary ml-2">login?</a>
+                </small>
+                </div>
                 <div class="col-md-6">
-                <small class="text-muted"><a href="{% url 'main-page'%}" class="ml-2">go to main page</a>
-                </small> </div>
+                <small class="text-muted"><a href="{% url 'register'%}" class="btn btn-primary ml-2">CREATE A NEW ACCOUNT</a>
+                </small>
+                </div>
+
 
             </div>
-
         </div>
-    </div>
+
+    </main>
+
+
 
 {% endblock content %}

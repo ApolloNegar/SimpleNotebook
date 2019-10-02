@@ -27,10 +27,10 @@ def register(request):
     return render(request, 'userLogin/register.html', {'form': form})
 
 
-@login_required
-def profile(request):
-    user = User.objects.get(id=request.user.id)
-    posts = Post.objects.filter(author=user.id)
-
-    counter = 0
-    return render(request, 'userLogin/profile.html', {'posts': posts, 'counter': counter})
+# @login_required
+# def profile(request):
+#     user = User.objects.get(id=request.user.id)
+#     posts = Post.objects.filter(author=user.id)
+#
+#     counter = 0
+#     return render(request, 'userLogin/profile.html', {'posts': posts, 'counter': counter})
