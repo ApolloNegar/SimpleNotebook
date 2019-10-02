@@ -88,5 +88,6 @@ fabric.properties
 .DS_Store
 
 ### Project Stuff
+venv/
 **/settings.py
 celerybeat-schedule.*
