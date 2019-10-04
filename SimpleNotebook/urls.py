@@ -19,12 +19,12 @@ from django.contrib import admin
 
 from django.contrib.auth import views as auth_views
 from notes.views import (UserPostDetailView, UserCreateView, UserUpdateView, UserDeleteView, UserPostListView,
-                         user_direct)
+                         user_direct, post_order_change, reorder)
 from userLogin import views as user_views
 
 urlpatterns = [
 
-    path('',  auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
+    path('', auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
     path('register/', user_views.register, name='register'),
     # path('profile/', user_views.profile, name='profile'),
     path('login/', auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='login'),
@@ -34,8 +34,12 @@ urlpatterns = [
     path('post/<int:pk>/', UserPostDetailView.as_view(), name="post-detail"),
     path('new-post/', UserCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update', UserUpdateView.as_view(), name="post-update"),
+
+    path('new-order/<int:order>', post_order_change, name="post-order"),
+    path('reorder/', reorder, name='post-reorder'),
+
     path('post/<int:pk>/delete', UserDeleteView.as_view(), name="post-delete"),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
-    path('user-direct/', user_direct, name="user-direct")
+    path('user-direct/', user_direct, name="user-direct"),
 
 ]

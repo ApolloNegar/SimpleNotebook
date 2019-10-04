@@ -1,63 +1,88 @@
 {% extends "notes/base.html" %}
 {% block content %}
-  {% if user.is_authenticated %}
+    {% if user.is_authenticated %}
 
         <table class="table table-bordered table-striped table-dark">
-          <thead>
+            <thead>
             <tr>
-              <th scope="col">Order</th>
-              <th scope="col">Title</th>
-              <th scope="col">Content</th>
-              <th scope="col">Created</th>
-              <th scope="col">Modified</th>
-              <th scope="col">Edit</th>
-              <th scope="col">Delete</th>
+                <th scope="col">Order</th>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Created</th>
+                <th scope="col">Modified</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
-          </thead>
-          <tbody>
-          {% for post in posts %}
-            <tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+                <tr>
 
-                    <th scope="row">{{ page_obj.paginator.object_list.count|add:'3' }}</th>
+                    <th scope="row">
 
-              <td>{{ post.title }}</td>
-              <td>{{ post.content }}</td>
-              <td>{{ post.date_posted }}</td>
-              <td>{{ post.date_modified }}</td>
-              <td><a href="{% url 'post-update' post.id %}"><i class="material-icons">edit</i></a>
-              </td>
-              <td><a href="{% url 'post-delete' post.id%}"><i class="material-icons">delete_forever</i></a>
-              </td>
+                        <div class="input-group mb-3">
+                            <div class="form-content">
+                                <form name="create_station" method="post" action="{% url 'post-order'  post.order  %}">
+                                    {% csrf_token %}
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-secondary" type="submit">SUBMIT</button>
+                                        </div>
+                                        <input type="number" class="form-control" size="1" name="order" placeholder="{{ post.order }}" aria-label=""
+                                               aria-describedby="basic-addon1">
+                                    </div>
+                                </form>
+                            </div>
+                            {#                            <input type="text" class="form-control" placeholder="1" aria-label=""#}
+                            {#                                   name="order" size="1">#}
+                            {#                            <div class="input-group-prepend">#}
+                            {#                                <a class="btn btn-secondary btn-sm form-row" href="{% url 'post-order' %}"#}
+                            {#                                   type="submit">submit</a>#}
+                            {#                            </div>#}
 
-            </tr>
+
+                        </div>
+
+                    </th>
+
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.content }}</td>
+                    <td>{{ post.date_posted }}</td>
+                    <td>{{ post.date_modified }}</td>
+                    <td><a href="{% url 'post-update' post.id %}"><i class="material-icons">edit</i></a>
+                    </td>
+                    <td><a href="{% url 'post-delete' post.id %}"><i class="material-icons">delete_forever</i></a>
+                    </td>
+
+                </tr>
 
             {% endfor %}
 
-          </tbody>
+            </tbody>
 
         </table>
-    {% if is_paginated %}
+        {% if is_paginated %}
 
             {% if page_obj.has_previous %}
-              <a class="btn btn-dark mb-4" href="?page=1">First</a>
-              <a class="btn btn-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                <a class="btn btn-dark mb-4" href="?page=1">First</a>
+                <a class="btn btn-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
             {% endif %}
 
             {% for num in page_obj.paginator.page_range %}
-              {% if page_obj.number == num %}
-                <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
-              {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
-              {% endif %}
+                {% if page_obj.number == num %}
+                    <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+                {% endif %}
             {% endfor %}
 
             {% if page_obj.has_next %}
-              <a class="btn btn-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-              <a class="btn btn-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                <a class="btn btn-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                <a class="btn btn-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
             {% endif %}
 
-      {% endif %}
+        {% endif %}
 
-  {% endif %}
+    {% endif %}
 
 {% endblock content %}

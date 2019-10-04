@@ -11,7 +11,9 @@ from django.urls import reverse
 class Post(models.Model):
     TITLE_MAX_LENGTH = 100
     CONTENT_MAX_LENGTH = 200
+    ORDER_MAX_LENGTH = 100
 
+    order = models.IntegerField(default=0, null=False)
     title = models.CharField(null=False, max_length=TITLE_MAX_LENGTH)
     content = models.TextField(max_length=CONTENT_MAX_LENGTH)  # TextField required max_length
     date_posted = models.DateTimeField(default=timezone.now)
