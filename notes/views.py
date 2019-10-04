@@ -39,8 +39,7 @@ class UserPostListView(ListView):
         # print(self.request.POST.get('order'))
         return Post.objects.filter(author=user).order_by('order')
 
-    # def post_order(self):
-    #     print(self.request)
+
 
 
 class UserPostDetailView(DetailView):
@@ -97,9 +96,6 @@ def post_order_change(request, **order):
         p_1.order = int(o)
 
         p_1.save()
-    # except Exception:
-    #     print(Exception)
-    #     pass
 
     else:
         pass
@@ -128,13 +124,11 @@ class UserCreateView(LoginRequiredMixin, CreateView):  # a view with a form, whe
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        # print(self.request.POST.get('title'))
-        # print(self.request.method)
-        # print(self.request.POST)
+
         form.save()
         total_count = Post.objects.filter(author=self.request.user).count()
-        #
-        print('total count:', total_count)
+
+
         t = total_count
 
         while 0 < t:
@@ -143,16 +137,6 @@ class UserCreateView(LoginRequiredMixin, CreateView):  # a view with a form, whe
                 p.save()
                 t -= 1
         form.instance.order = 1
-        # user_post = Post.objects.filter(author=self.request.user).count()
-        # try:
-        #
-        #     for o in Post.objects.filter(author=self.request.user):
-        #         o.order += user_post
-        #
-        #         o.save()
-        # except:
-        #     pass
-        # form.instance.order = 1
-        # form.save()
+
 
         return super().form_valid(form)
