@@ -32,7 +32,7 @@ class UserPostListView(ListView):
     template_name = 'notes/table_notes.html'  # ex: user_post.html
     context_object_name = "posts"
 
-    paginate_by = 3
+    paginate_by = 10
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
@@ -87,17 +87,19 @@ def user_direct(request):
 @login_required
 def post_order_change(request, **order):
     if request.method == 'POST':
-        try:
-            o = request.POST.get('order')  # target location
-            p_1 = Post.objects.get(order=int(o))  # target post
-            p_2 = Post.objects.get(author=request.user, order=order['order'])  # the other target post
+        # try:
+        o = request.POST.get('order')  # target order
+        p_1 = Post.objects.get(author=request.user, order=order['order'])  # the other target post
+        p_2 = Post.objects.get(author=request.user, order=int(o))  # target post
 
-            p_1.order = order['order']
-            p_2.order = int(o)
-            p_1.save()
-            p_2.save()
-        except:
-            pass
+        p_2.order = int(order['order'])
+        p_2.save()
+        p_1.order = int(o)
+
+        p_1.save()
+    # except Exception:
+    #     print(Exception)
+    #     pass
 
     else:
         pass
