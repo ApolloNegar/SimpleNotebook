@@ -20,14 +20,17 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from notes.views import (UserPostDetailView, UserCreateView, UserUpdateView, UserDeleteView, UserPostListView,
                          user_direct, post_order_change, reorder)
-from userLogin import views as user_views
-
+from userLogin.views import register # UserLogin,
+from django.contrib.auth.views import LoginView
 urlpatterns = [
 
     path('', auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
-    path('register/', user_views.register, name='register'),
+    path('register/', register, name='register'),
     # path('profile/', user_views.profile, name='profile'),
-    path('login/', auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='login'),
+    # path('login/', UserLogin.as_view(template_name='userLogin/login.html'), name='login'),
+
+    path('login/', LoginView.as_view(template_name='userLogin/login.html'), name='login'),
+
     # telling django where to look for template
     path('logout/', auth_views.LogoutView.as_view(template_name='userLogin/logout.html'), name='logout'),
     path('admin/', admin.site.urls),

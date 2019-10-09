@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect, HttpResponseRedirect, HttpResponse
 
 from django.contrib import messages
+from django.contrib.auth.views import LoginView
+# from django.contrib.auth.views
 from .forms import UserRegisterForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from notes.models import Post
 
 
 # Create your views here.
@@ -21,16 +19,16 @@ def register(request):
             username = form.cleaned_data.get('username')  # the validated data will be in cleaned_data!
             messages.success(request, f'Account created for {username} !')  # now update your template...
             return redirect('main-page')  # name of the url pattern
+        else:
+            return HttpResponse('register')
     else:
         form = UserRegisterForm()
 
     return render(request, 'userLogin/register.html', {'form': form})
 
 
-# @login_required
-# def profile(request):
-#     user = User.objects.get(id=request.user.id)
-#     posts = Post.objects.filter(author=user.id)
+# class UserLogin(LoginView):
 #
-#     counter = 0
-#     return render(request, 'userLogin/profile.html', {'posts': posts, 'counter': counter})
+#     class Meta:
+#         if not LoginView.get_success_url():
+#             print('yes')

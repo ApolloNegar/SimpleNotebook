@@ -13,7 +13,8 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+
 )
 
 from .models import Post
@@ -38,8 +39,6 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         # print(self.request.POST.get('order'))
         return Post.objects.filter(author=user).order_by('order')
-
-
 
 
 class UserPostDetailView(DetailView):
@@ -124,19 +123,19 @@ class UserCreateView(LoginRequiredMixin, CreateView):  # a view with a form, whe
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-
         form.save()
         total_count = Post.objects.filter(author=self.request.user).count()
-
-
+        print(total_count)
         t = total_count
+        if t == 1:
+            form.instance.order = 1
+        else:
+            while 1 < t:
+                for p in Post.objects.filter(author=self.request.user):
+                    p.order = t
+                    p.save()
+                    t -= 1
 
-        while 0 < t:
-            for p in Post.objects.filter(author=self.request.user):
-                p.order = t
-                p.save()
-                t -= 1
-        form.instance.order = 1
-
+            form.instance.order = 1
 
         return super().form_valid(form)
