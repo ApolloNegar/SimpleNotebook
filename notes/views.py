@@ -86,8 +86,10 @@ def user_direct(request):
 def post_order_change(request, **order):
     if request.method == 'POST':
         # try:
-        o = request.POST.get('order')  # target order
-        p_1 = Post.objects.get(author=request.user, order=order['order'])  # the other target post
+
+        o = request.POST.get('order')  # goal order
+
+        p_1 = Post.objects.get(author=request.user, order=order['order'])  # the current order of the post
         p_2 = Post.objects.get(author=request.user, order=int(o))  # target post
 
         p_2.order = int(order['order'])

@@ -20,11 +20,12 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from notes.views import (UserPostDetailView, UserCreateView, UserUpdateView, UserDeleteView, UserPostListView,
                          user_direct, post_order_change, reorder)
-from userLogin.views import register # UserLogin,
+from userLogin.views import register, email_check, verification_code, code_check
 from django.contrib.auth.views import LoginView
+
 urlpatterns = [
 
-    path('', auth_views.LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
+    path('', email_check, name='main-page'),
     path('register/', register, name='register'),
     # path('profile/', user_views.profile, name='profile'),
     # path('login/', UserLogin.as_view(template_name='userLogin/login.html'), name='login'),
@@ -44,5 +45,6 @@ urlpatterns = [
     path('post/<int:pk>/delete', UserDeleteView.as_view(), name="post-delete"),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('user-direct/', user_direct, name="user-direct"),
-
+    path('v-code/', verification_code, name='email-check'),
+    path('user-check/<int:verify>', code_check, name='user-check'),
 ]
