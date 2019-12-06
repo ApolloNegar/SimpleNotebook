@@ -1,0 +1,25 @@
+{% extends "notes/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1> you are logged in! </h1>
+    {% else %}
+    <div class="container  login-register">
+        <div class="form-content padding ">
+
+            <form method="post" action="{% url 'user-check' verify %}" >
+                {% csrf_token %}
+                <fieldset class="form-group">
+                    <legend class="border-bottom mb-4">verification code: {{ verify }}</legend>
+                    {{ form|crispy}}
+                </fieldset>
+                <div class="form-group">
+                    <button class="btn btn-info" type="submit">OK</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
