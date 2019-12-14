@@ -14,7 +14,7 @@ class UserRegisterForm(UserCreationForm):
 
 
 class UserLoginForm(forms.Form):
-    email = forms.EmailField(max_length=120, label='phone')
+    email = forms.EmailField(max_length=120, label='email')
 
 
 class Verification(forms.Form):
