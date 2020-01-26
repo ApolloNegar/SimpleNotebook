@@ -16,16 +16,23 @@ Including another URLconf
 
 from django.urls import path
 from django.contrib import admin
-
+from django.conf.urls import url, include
 from django.contrib.auth import views as auth_views
-from notes.views import (UserPostDetailView, UserCreateView, UserUpdateView, UserDeleteView, UserPostListView,
-                         user_direct, post_order_change, reorder)
-from userLogin.views import register, email_check, verification_code, code_check
+from notes.views import (
+        UserPostDetailView, 
+        UserCreateView, 
+        UserUpdateView, 
+        UserDeleteView,
+        UserPostListView,
+        user_direct,
+        post_order_change,
+        reorder)
+from userLogin.views import register
 from django.contrib.auth.views import LoginView
 
 urlpatterns = [
 
-    path('', email_check, name='main-page'),
+    path('', LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
     path('register/', register, name='register'),
     # path('profile/', user_views.profile, name='profile'),
     # path('login/', UserLogin.as_view(template_name='userLogin/login.html'), name='login'),
@@ -39,12 +46,13 @@ urlpatterns = [
     path('new-post/', UserCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update', UserUpdateView.as_view(), name="post-update"),
 
-    path('new-order/<int:order>', post_order_change, name="post-order"),
+    path('post/<int:order>', post_order_change, name="post-order"),
     path('reorder/', reorder, name='post-reorder'),
 
     path('post/<int:pk>/delete', UserDeleteView.as_view(), name="post-delete"),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('user-direct/', user_direct, name="user-direct"),
-    path('v-code/', verification_code, name='email-check'),
-    path('user-check/<int:verify>', code_check, name='user-check'),
+    url(r'^api/users/', include(("userLogin.api.urls",'users-api'), namespace='users-api'))
+    # path(r'^api-auth/', 'rest_framework.urls')
+
 ]

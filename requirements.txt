@@ -4,3 +4,6 @@ django-crispy-forms==1.7.2
 Pillow==6.2.0
 postgres==2.2.2
 pytz==2019.2
+djangorestframework
+markdown
+django-filter

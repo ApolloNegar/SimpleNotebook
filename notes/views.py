@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.http import HttpRequest
+from django.http import HttpRequest, Http404
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db import models
@@ -83,23 +83,21 @@ def user_direct(request):
 
 
 @login_required
-def post_order_change(request, **order):
+def post_order_change(request, **kwargs):
     if request.method == 'POST':
-        # try:
+        entered_order = request.POST.get('order')  # goal order
 
-        o = request.POST.get('order')  # goal order
+        p_1 = Post.objects.get(author=request.user, order=kwargs['order'])  # the current order of the post
+        p_2 = Post.objects.get(author=request.user, order=int(entered_order))  # target post
 
-        p_1 = Post.objects.get(author=request.user, order=order['order'])  # the current order of the post
-        p_2 = Post.objects.get(author=request.user, order=int(o))  # target post
-
-        p_2.order = int(order['order'])
+        p_2.order = int(kwargs['order'])
         p_2.save()
-        p_1.order = int(o)
+        p_1.order = int(entered_order)
 
         p_1.save()
 
     else:
-        pass
+        raise Http404
     context = {'user': request.user}
     return render(request, 'notes/post_order.html', context)
 
