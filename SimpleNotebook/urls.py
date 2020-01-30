@@ -14,9 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 
-from django.urls import path
+from django.urls import path, include
 from django.contrib import admin
-from django.conf.urls import url, include
+
 from django.contrib.auth import views as auth_views
 from notes.views import (
         UserPostDetailView, 
@@ -32,16 +32,14 @@ from django.contrib.auth.views import LoginView
 
 urlpatterns = [
 
-    path('', LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
-    path('register/', register, name='register'),
-    # path('profile/', user_views.profile, name='profile'),
-    # path('login/', UserLogin.as_view(template_name='userLogin/login.html'), name='login'),
-
-    path('login/', LoginView.as_view(template_name='userLogin/login.html'), name='login'),
-
-    # telling django where to look for template
-    path('logout/', auth_views.LogoutView.as_view(template_name='userLogin/logout.html'), name='logout'),
     path('admin/', admin.site.urls),
+    path('', LoginView.as_view(template_name='userLogin/login.html'), name='main-page'),
+
+    path('register/', register, name='register'),
+    path('login/', LoginView.as_view(template_name='userLogin/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='userLogin/logout.html'), name='logout'),
+
+    
     path('post/<int:pk>/', UserPostDetailView.as_view(), name="post-detail"),
     path('new-post/', UserCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update', UserUpdateView.as_view(), name="post-update"),
@@ -52,7 +50,10 @@ urlpatterns = [
     path('post/<int:pk>/delete', UserDeleteView.as_view(), name="post-delete"),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('user-direct/', user_direct, name="user-direct"),
-    url(r'^api/users/', include(("userLogin.api.urls",'users-api'), namespace='users-api'))
-    # path(r'^api-auth/', 'rest_framework.urls')
+    
+    # api_urls
+    path('api/posts/', include('notes.api.urls', namespace=None), name='post-api'),
+    path('api/users/', include('userLogin.api.urls', namespace=None),name='user-api')
+    
 
 ]
