@@ -7,24 +7,23 @@ from rest_framework.serializers import (
 )
 
 from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
+from rest_framework.generics import (
+        CreateAPIView
+)
 from django.db.models import Q
 
+User = get_user_model()
 
 class UserLoginSerializer(ModelSerializer):
     token = CharField(allow_blank=True, read_only=True)
     username = CharField()
 
-    # email = EmailField(label="Email Address")
+    
     class Meta:
         model = User
         fields = ['username', 'password', 'token']
 
-        extra_kwargs = {"password":
-                            {"write_only": True}
-                        }
+        extra_kwargs = {"password": {"write_only": True} }
 
     def validate(self, data):
         user_obj = None
@@ -45,3 +44,27 @@ class UserLoginSerializer(ModelSerializer):
                 raise ValidationError("Incorrect password!")
         data["token"] = "some random token"
         return data
+
+class UserCreateSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields =[
+            'username',
+            'email',
+            'password'
+        ]
+
+        extra_kwargs = { 
+            "password":
+                {"write_only":True}
+                        }
+        
+        # overriding create()
+    def create(self, validated_data):
+        username = validated_data["username"]
+        email = validated_data["email"]
+        password = validated_data["password"]
+        user_obj = User(username=username,email=email)
+        user_obj.set_password(password)
+        user_obj.save()
+        return validated_data
