@@ -1,10 +1,13 @@
-from django.conf.urls import url
+from django.urls import path
 from django.contrib import admin
 
 from .views import (
-    UserLoginApiView
+    UserLoginApiView,
+    UserCreateApiView
 )
 
 urlpatterns = [
-    url(r'^login/', UserLoginApiView.as_view(), name='login')
+    path('login/',UserLoginApiView.as_view()),
+    path('register/',UserCreateApiView.as_view())
+    
 ]
