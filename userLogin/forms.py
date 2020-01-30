@@ -17,6 +17,3 @@ class UserLoginForm(forms.Form):
     email = forms.EmailField(max_length=120, label='email')
 
 
-class Verification(forms.Form):
-    code = randrange(10000, 100000)
-    user_code_input = forms.CharField(max_length=5, label='code')
