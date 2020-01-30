@@ -30,14 +30,14 @@ def notes(request):
 
 class UserPostListView(ListView):
     model = Post
-    template_name = 'notes/table_notes.html'  # ex: user_post.html
+    template_name = 'notes/table_notes.html'  
     context_object_name = "posts"
 
     paginate_by = 10
 
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        # print(self.request.POST.get('order'))
+        
         return Post.objects.filter(author=user).order_by('order')
 
 
@@ -45,8 +45,10 @@ class UserPostDetailView(DetailView):
     model = Post
 
 
-class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
-                     UpdateView):  # a view with a form, when we update a post
+class UserUpdateView(
+        LoginRequiredMixin, 
+        UserPassesTestMixin,
+        UpdateView):  # a view with a form, when we update a post
     model = Post
     fields = ['title', 'content']
 
@@ -64,7 +66,8 @@ class UserUpdateView(LoginRequiredMixin, UserPassesTestMixin,
         if self.request.user == post.author:
             return True
         return False
-
+    
+        
 
 class UserDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
