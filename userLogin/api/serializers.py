@@ -17,7 +17,7 @@ User = get_user_model()
 class UserLoginSerializer(ModelSerializer):
     token = CharField(allow_blank=True, read_only=True)
     username = CharField()
-
+    
     
     class Meta:
         model = User
@@ -42,6 +42,10 @@ class UserLoginSerializer(ModelSerializer):
         if user_obj:
             if not user_obj.check_password(password):
                 raise ValidationError("Incorrect password!")
+            else: 
+                # nothing to do yet
+                pass
+        
         data["token"] = "some random token"
         return data
 
@@ -59,7 +63,7 @@ class UserCreateSerializer(ModelSerializer):
                 {"write_only":True}
                         }
         
-        # overriding create()
+    # overriding create()
     def create(self, validated_data):
         username = validated_data["username"]
         email = validated_data["email"]
