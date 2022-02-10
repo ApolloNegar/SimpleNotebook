@@ -1,5 +1,5 @@
 # use python >= 3.7
-Django==2.2.5
+Django==2.2.27
 django-crispy-forms==1.7.2
 Pillow==6.2.0
 postgres==2.2.2
